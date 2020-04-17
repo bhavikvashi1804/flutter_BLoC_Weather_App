@@ -32,6 +32,7 @@ class MyApp extends StatelessWidget {
 
 
 class WeatherPage extends StatelessWidget {
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -75,10 +76,49 @@ class WeatherPage extends StatelessWidget {
             }
             if(state is WeatherLoaded){
               final Weather weather=state.weather;
-              return Center(
-                child:Text(
-                  weather.temp.toString(),
-                )
+              return Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    weather.locationName,
+                    style: TextStyle(
+                      fontSize: 25
+                    ),
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Text(
+                    'Temperature: ${weather.temp} °C  ${weather.iconString}',
+                    style: TextStyle(
+                      fontSize: 20
+
+                    ),
+
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+
+                  Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text('Min Temp: ${weather.minTemp} °C'),
+                      SizedBox(width: 30,),
+                      Text('Max Temp: ${weather.maxTemp} °C')
+                    ],
+                  ),
+
+
+                  SizedBox(
+                    height: 10,
+                  ),
+
+                  
+
+
+
+                ],
               );
             }
 
