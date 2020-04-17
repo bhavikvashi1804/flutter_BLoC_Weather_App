@@ -100,55 +100,58 @@ class _WeatherPageState extends State<WeatherPage> {
             }
             if(state is WeatherLoaded){
               final Weather weather=state.weather;
+              
               return RefreshIndicator(
                 onRefresh:(){ 
-                  BlocProvider.of<WeatherBloc>(context).add(
-                    RefreshWeather(city: weather.locationName),
-                  );
+                  BlocProvider.of<WeatherBloc>(context).add(RefreshWeather(city: "Mumbai"),);
+                  
+                
                 },
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      weather.locationName,
-                      style: TextStyle(
-                        fontSize: 25
+                child: Center(
+                  child: ListView(
+                  
+                    children: [
+                      Text(
+                        weather.locationName,
+                        style: TextStyle(
+                          fontSize: 25
+                        ),
                       ),
-                    ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    Text(
-                      'Temperature: ${weather.temp} °C  ${weather.iconString}',
-                      style: TextStyle(
-                        fontSize: 20
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Text(
+                        'Temperature: ${weather.temp} °C  ${weather.iconString}',
+                        style: TextStyle(
+                          fontSize: 20
+
+                        ),
 
                       ),
+                      SizedBox(
+                        height: 10,
+                      ),
 
-                    ),
-                    SizedBox(
-                      height: 10,
-                    ),
-
-                    Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Text('Min Temp: ${weather.minTemp} °C'),
-                        SizedBox(width: 30,),
-                        Text('Max Temp: ${weather.maxTemp} °C')
-                      ],
-                    ),
+                      Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text('Min Temp: ${weather.minTemp} °C'),
+                          SizedBox(width: 30,),
+                          Text('Max Temp: ${weather.maxTemp} °C')
+                        ],
+                      ),
 
 
-                    SizedBox(
-                      height: 10,
-                    ),
+                      SizedBox(
+                        height: 10,
+                      ),
 
-                    
+                      
 
 
 
-                  ],
+                    ],
+                  ),
                 ),
               );
             }
