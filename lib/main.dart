@@ -20,12 +20,18 @@ class MyApp extends StatelessWidget {
  
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Weather App',
-      debugShowCheckedModeBanner: false,
-      home: BlocProvider(
-        create: (context) => WeatherBloc(weatherAPIClient: weatherAPIClient),
-        child: WeatherPage()
+    return BlocProvider<ThemeBloc>(
+      create: (context) => ThemeBloc(),
+      child: BlocBuilder<ThemeBloc,ThemeData>(
+          builder: (context, theme) =>MaterialApp(
+          title: 'Weather App',
+          debugShowCheckedModeBanner: false,
+          theme: theme,
+          home: BlocProvider<WeatherBloc>(
+            create: (context) => WeatherBloc(weatherAPIClient: weatherAPIClient),
+            child: WeatherPage()
+          ),
+        ),
       ),
     );
   }
@@ -66,6 +72,10 @@ class _WeatherPageState extends State<WeatherPage> {
                 BlocProvider.of<WeatherBloc>(context).add(FetchWeather(city: city));
               }
             },
+          ),
+          IconButton(
+            icon: Icon(Icons.wb_sunny),
+            onPressed: () => context.bloc<ThemeBloc>().add(ThemeEvent.toggle),
           )
         ],
       ),
