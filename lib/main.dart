@@ -82,7 +82,12 @@ class _WeatherPageState extends State<WeatherPage> {
         ],
       ),
 
-      body: BlocBuilder<WeatherBloc,WeatherState>(
+      body: BlocConsumer<WeatherBloc,WeatherState>(
+          listener: (context, state)  {
+            if (state is WeatherLoaded) {
+              _refreshCompleter?.complete();
+            }
+          },
           builder: (context, state){
 
             if(state is WeatherEmpty ){
@@ -104,16 +109,12 @@ class _WeatherPageState extends State<WeatherPage> {
               
               return RefreshIndicator(
                 onRefresh:(){ 
-                
-                 if(_refreshCompleter.isCompleted){
-                   _refreshCompleter=Completer();
-                 }
-                  
+
+                  if(_refreshCompleter.isCompleted){
+                    _refreshCompleter=Completer();
+                  }
                   BlocProvider.of<WeatherBloc>(context).add(RefreshWeather(city: "Mumbai"),);
-                  _refreshCompleter?.complete();
-                 
                   return _refreshCompleter.future;
-                
                 },
                 child: Center(
                   child: ListView(
