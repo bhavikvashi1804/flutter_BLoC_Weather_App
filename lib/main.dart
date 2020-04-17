@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'dart:async';
 
 import './simple_bloc_delegate.dart';
 import './blocs/blocs.dart';
@@ -31,13 +32,26 @@ class MyApp extends StatelessWidget {
 }
 
 
-class WeatherPage extends StatelessWidget {
+class WeatherPage extends StatefulWidget {
   
+  @override
+  _WeatherPageState createState() => _WeatherPageState();
+}
+
+class _WeatherPageState extends State<WeatherPage> {
+  Completer<void> _refreshCompleter;
+
+
+  @override
+  void initState() {
+    _refreshCompleter=Completer<void>();
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Weathe App'),
+        title: Text('Weather App'),
         actions: <Widget>[
           IconButton(
             icon: Icon(Icons.search),
@@ -76,49 +90,56 @@ class WeatherPage extends StatelessWidget {
             }
             if(state is WeatherLoaded){
               final Weather weather=state.weather;
-              return Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    weather.locationName,
-                    style: TextStyle(
-                      fontSize: 25
+              return RefreshIndicator(
+                onRefresh:(){ 
+                  BlocProvider.of<WeatherBloc>(context).add(
+                    RefreshWeather(city: weather.locationName),
+                  );
+                },
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      weather.locationName,
+                      style: TextStyle(
+                        fontSize: 25
+                      ),
                     ),
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Text(
-                    'Temperature: ${weather.temp} °C  ${weather.iconString}',
-                    style: TextStyle(
-                      fontSize: 20
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Text(
+                      'Temperature: ${weather.temp} °C  ${weather.iconString}',
+                      style: TextStyle(
+                        fontSize: 20
+
+                      ),
 
                     ),
+                    SizedBox(
+                      height: 10,
+                    ),
 
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-
-                  Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Text('Min Temp: ${weather.minTemp} °C'),
-                      SizedBox(width: 30,),
-                      Text('Max Temp: ${weather.maxTemp} °C')
-                    ],
-                  ),
+                    Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text('Min Temp: ${weather.minTemp} °C'),
+                        SizedBox(width: 30,),
+                        Text('Max Temp: ${weather.maxTemp} °C')
+                      ],
+                    ),
 
 
-                  SizedBox(
-                    height: 10,
-                  ),
+                    SizedBox(
+                      height: 10,
+                    ),
 
-                  
+                    
 
 
 
-                ],
+                  ],
+                ),
               );
             }
 
