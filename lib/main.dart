@@ -53,6 +53,8 @@ class _WeatherPageState extends State<WeatherPage> {
     _refreshCompleter=Completer<void>();
     super.initState();
   }
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -80,8 +82,7 @@ class _WeatherPageState extends State<WeatherPage> {
         ],
       ),
 
-      body: Center(
-        child: BlocBuilder<WeatherBloc,WeatherState>(
+      body: BlocBuilder<WeatherBloc,WeatherState>(
           builder: (context, state){
 
             if(state is WeatherEmpty ){
@@ -103,8 +104,15 @@ class _WeatherPageState extends State<WeatherPage> {
               
               return RefreshIndicator(
                 onRefresh:(){ 
-                  BlocProvider.of<WeatherBloc>(context).add(RefreshWeather(city: "Mumbai"),);
+                
+                 if(_refreshCompleter.isCompleted){
+                   _refreshCompleter=Completer();
+                 }
                   
+                  BlocProvider.of<WeatherBloc>(context).add(RefreshWeather(city: "Mumbai"),);
+                  _refreshCompleter?.complete();
+                 
+                  return _refreshCompleter.future;
                 
                 },
                 child: Center(
@@ -158,7 +166,7 @@ class _WeatherPageState extends State<WeatherPage> {
 
           },
         ),
-      ),
+    
       
       
     );
