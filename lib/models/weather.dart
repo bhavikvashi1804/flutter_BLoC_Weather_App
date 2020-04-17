@@ -31,11 +31,11 @@ class Weather extends Equatable{
   static Weather fromJson(dynamic weatherDataJSON) {
 
     Weather weather=Weather(
-      id : weatherDataJSON['weather'][0]['id'],
+      id : weatherDataJSON['weather'][0]['id'].toInt(),
       locationName: weatherDataJSON['name'],
-      temp: weatherDataJSON['main']['temp'],
-      minTemp: weatherDataJSON['main']['temp_min'],
-      maxTemp: weatherDataJSON['main']['temp_max'],
+      temp: weatherDataJSON['main']['temp'].toDouble(),
+      minTemp: weatherDataJSON['main']['temp_min'].toDouble(),
+      maxTemp: weatherDataJSON['main']['temp_max'].toDouble(),
       iconString: getWeatherIcon(weatherDataJSON['weather'][0]['id']),
     );
     return weather;

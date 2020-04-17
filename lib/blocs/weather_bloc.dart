@@ -104,7 +104,8 @@ class WeatherBloc extends Bloc<WeatherEvent, WeatherState> {
       //data loading completed
       //set the state to loading completed
       yield WeatherLoaded(weather: weather);
-    } catch (_) {
+    } catch (error) {
+      print(error);
       //if error occured then set the state to WeatherError
       yield WeatherError();
     }
