@@ -5,6 +5,7 @@ import './simple_bloc_delegate.dart';
 import './blocs/blocs.dart';
 import './services/services.dart';
 import './widgets/widgets.dart';
+import './models/models.dart';
 
 
 void main() {
@@ -47,15 +48,43 @@ class WeatherPage extends StatelessWidget {
                 ),
               );
               if (city != null) {
-                BlocProvider.of<WeatherBloc>(context)
-                    .add(FetchWeather(city: city));
+                BlocProvider.of<WeatherBloc>(context).add(FetchWeather(city: city));
               }
             },
           )
         ],
       ),
 
-      body: Center(child: Text('jbk'),),
+      body: Center(
+        child: BlocBuilder<WeatherBloc,WeatherState>(
+          builder: (context, state){
+
+            if(state is WeatherEmpty ){
+              return Center(child: Text('Please Select a Location'));
+            }
+            if (state is WeatherLoading) {
+              return Center(child: CircularProgressIndicator());
+            }
+            if (state is WeatherError) {
+              return Center(
+                child: Text(
+                  'Something went wrong!',
+                  style: TextStyle(color: Colors.red),
+                ),
+              );
+            }
+            if(state is WeatherLoaded){
+              final Weather weather=state.weather;
+              return Center(
+                child:Text(
+                  weather.temp.toString(),
+                )
+              );
+            }
+
+          },
+        ),
+      ),
       
       
     );
