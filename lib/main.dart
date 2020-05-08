@@ -111,39 +111,51 @@ class _WeatherPageState extends State<WeatherPage> {
                 return _refreshCompleter.future;
               },
               child: ListView(
+               
+                
                 children: [
-                  Column(
-                    children: [
-                      Text(
-                        weather.locationName,
-                        style: TextStyle(fontSize: 25),
+                  
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 100),
+                      child: Center(
+                        child: Column(
+                          
+                          
+                          children: [
+                            Text(
+                              weather.locationName,
+                              style: TextStyle(fontSize: 25),
+                            ),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            Text(
+                              'Temperature: ${weather.temp} °C  ${weather.iconString}',
+                              style: TextStyle(fontSize: 20),
+                            ),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Text('Min Temp: ${weather.minTemp} °C'),
+                                SizedBox(
+                                  width: 30,
+                                ),
+                                Text('Max Temp: ${weather.maxTemp} °C')
+                              ],
+                            ),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            Text("Last Updated at: ${weather.time}")
+                          ],
+                        ),
                       ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      Text(
-                        'Temperature: ${weather.temp} °C  ${weather.iconString}',
-                        style: TextStyle(fontSize: 20),
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Text('Min Temp: ${weather.minTemp} °C'),
-                          SizedBox(
-                            width: 30,
-                          ),
-                          Text('Max Temp: ${weather.maxTemp} °C')
-                        ],
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      Text("Last Updated at: ${weather.time}")
-                    ],
-                  ),
+                    ),
+                 
+                 
                 ],
               ),
             );
