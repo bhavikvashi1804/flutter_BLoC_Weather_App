@@ -9,6 +9,7 @@ class Weather extends Equatable{
   final double temp;
   final double maxTemp;
   final String iconString;
+  final DateTime time;
   
 
   const Weather({
@@ -18,12 +19,13 @@ class Weather extends Equatable{
     this.minTemp,
     this.maxTemp,
     this.iconString,
+    this.time
     
   });
 
   
   @override
-  List<Object> get props => [id,locationName,temp,minTemp,maxTemp,iconString];
+  List<Object> get props => [id,locationName,temp,minTemp,maxTemp,iconString,time];
 
 
 
@@ -37,6 +39,7 @@ class Weather extends Equatable{
       minTemp: weatherDataJSON['main']['temp_min'].toDouble(),
       maxTemp: weatherDataJSON['main']['temp_max'].toDouble(),
       iconString: getWeatherIcon(weatherDataJSON['weather'][0]['id']),
+      time: DateTime.now()
     );
     return weather;
   }
